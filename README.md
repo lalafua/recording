@@ -1,6 +1,19 @@
 # Process Recording
 
-## 5.23 Fri (Last modified on 5.26)
+## Introduction
+
+此仓库按时间线记录本人在开发过程中遇到的问题和解决方案，以后可能还会加入其他内容的开发记录，欢迎 Issue，欢迎 PR，欢迎讨论，如有转载，请注明出处！
+
+## Content
+
+[5.23 Fri](#523-fri-last-modified-on-526)
+- [x] 飞控与 RPI 的通信设置
+
+[5.25 Sun](#525-sun)
+- [x] 在 RPI (Ubuntu Server 22.04.5) 上启用 X11 转发
+- [x] rqt 插件加载问题
+
+### 5.23 Fri (Last modified on 5.26)
 
 - [x] **飞控与 RPI 的通信设置**
 
@@ -209,10 +222,19 @@ Actions:
 - [mavros_tutorial](https://masoudir.github.io/mavros_tutorial/) （虽然是 ROS Melodic 的 tutorial，但是仍然适用于当前的 mavros）
 - [Ardupilot Copter - Ethernet / Network Setup](https://ardupilot.org/copter/docs/common-network.html#common-network)
 
-PS. 地面站的选择
+*PS. 地面站的选择*
 
+由于 mission planer 是用 .NET 开发的，因此并没有 linux based 的安装包（我用的 Fedora），STFW 发现 [QGroundControl](https://flathub.org/apps/org.mavlink.qgroundcontrol) 竟然有 [Flatpak](https://flathub.org/) 的打包版，于是果断安装，安装后需要设置权限以便 sandbox 内的 QFroundControl 可以访问到外部设备（ `/dev/ttyACM*` ），使用 [Flatseal](https://flathub.org/apps/com.github.tchx84.Flatseal) 可以很方便的完成。除此之外还需要将用户加入 `dialout` 组。
 
-## 5.25 Sun
+```sh
+sudo usermod -aG dialout $USER
+```
+
+完成后 log out 或者 restart，再插上飞控验证。
+
+---
+
+### 5.25 Sun
 
 - [x] **在 RPI (Ubuntu Server 22.04.5) 上启用 X11 转发**
 
@@ -236,8 +258,7 @@ X11UseLocalhost yes
 ```
 
 ```
-# 并重启 sshd 服务
-$ sudo systemctl restart sshd
+$ sudo systemctl restart sshd # 重启 sshd 服务
 ```
 
 - [x] **rqt 插件加载问题**
